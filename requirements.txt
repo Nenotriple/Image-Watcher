@@ -1,0 +1,4 @@
+pillow
+pypng
+watchdog
+git+https://github.com/Nenotriple/TkToolTip.git

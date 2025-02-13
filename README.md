@@ -1,6 +1,6 @@
-<h1 align="center"><img src="..." alt="icon" width="50"> Image-Watcher</h1>
+<h1 align="center"><img src="https://github.com/user-attachments/assets/509b56a3-b95f-4d2d-931f-b40edf8c2ce2" alt="icon" width="50"> Image-Watcher</h1>
 <p align="center">A simple tool to monitor and manage images in a directory with helpful features</p>
-<p align="center"><img src="..." alt="cover"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/f47f6670-9698-4635-b855-c89a0f6482b7" alt="cover"></p>
 
 
 

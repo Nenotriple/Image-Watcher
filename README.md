@@ -3,7 +3,7 @@
 <p align="center"><img src="https://github.com/user-attachments/assets/f47f6670-9698-4635-b855-c89a0f6482b7" alt="cover"></p>
 
 
-## [💾 Download Latest Release]()
+## [💾 Download Latest Release](https://github.com/Nenotriple/Image-Watcher/releases/tag/v1.0)
 
 
 ## 📝 Usage

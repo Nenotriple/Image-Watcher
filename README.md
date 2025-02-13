@@ -55,7 +55,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 - **Quoutes**: Use to match exact phrases: `"mountain lake"`
   - Match *"mountain lake"* as a single term.
 ---
-- Use a Mix of **(AND)**, **(OR)**, **(NOT)**, and Parentheses:
+- Use a Mix of **(AND)**, **(OR)**, **(NOT)**, and **Quotes**:
   - `"mountain ~ lake" sunset -beach`
     - Show *"mountain"* **(OR)** *"lake"* at sunset but **(NOT)** *"beach"*.
   - `-"mountain ~ lake" sunset beach`

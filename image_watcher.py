@@ -8,12 +8,12 @@ import tkinter as tk
 from tkinter import filedialog
 
 # Local
-from interface_manager import ImageWatcherGUI
-from image_manager import ImageManager
-from image_database_manager import DatabaseManager
-from watchdog_manager import WatchdogManager
-from file_manager import FileManager
 import help_text
+from file_manager import FileManager
+from image_manager import ImageManager
+from watchdog_manager import WatchdogManager
+from interface_manager import ImageWatcherGUI
+from image_database_manager import DatabaseManager
 
 
 #endregion
@@ -487,6 +487,14 @@ class ImageWatcher:
 
     def copy_image_to(self):
         self.file_manager.copy_image_to()
+
+
+    def export_current_image_metadata(self):
+        self.file_manager.export_current_image_metadata(self.database_manager)
+
+
+    def export_all_metadata(self):
+        self.file_manager.export_all_metadata(self.database_manager)
 
 
 #endregion

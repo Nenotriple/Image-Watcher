@@ -11,6 +11,7 @@
 - Launch the application and select a directory to monitor.
 - Browse images by navigating with the arrow keys or using provided controls.
 - Filter and search images via PNG metadata.
+  - Currently only stable-diffusion-webui-forge/stable-diffusion-webui are supported/tested.
 - Saved images will be moved to a local folder `Saved Images`.
 - An image database will be created in the selected directory to handle metadata.
 

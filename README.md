@@ -52,7 +52,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 - **NOT**: Prefix with `-` to exclude that term: `sunset -beach`
   - Match with *"sunset"* but **NOT** *"beach"*
 ---
-- **Quoutes**: Use to match exact phrases: `"mountain lake"`
+- **Quotes**: Use to match exact phrases: `"mountain lake"`
   - Match *"mountain lake"* as a single term.
 ---
 - Use a Mix of **AND**, **OR**, **NOT**, and **Quotes**:

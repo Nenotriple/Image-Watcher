@@ -3,8 +3,11 @@
 <p align="center"><img src="https://github.com/user-attachments/assets/f47f6670-9698-4635-b855-c89a0f6482b7" alt="cover"></p>
 
 
+## [💾 Download Latest Release]()
+
 
 ## 📝 Usage
+- Download the latest release.
 - Launch the application and select a directory to monitor.
 - Browse images by navigating with the arrow keys or using provided controls.
 - Filter and search images via PNG metadata.
@@ -63,7 +66,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 </details>
 
 
-## 🔧 Install
+## 🔧 Python Install/Setup
 1. Clone the repository: `git clone https://github.com/Nenotriple/Image-Watcher.git`
 2. Launch the app using `Start.bat`
 3. When prompted, install the required dependencies.

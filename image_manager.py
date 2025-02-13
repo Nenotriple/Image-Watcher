@@ -12,7 +12,7 @@ import os
 class ImageManager:
     def __init__(self, folder, extensions):
         self.folder = folder
-        self.valied_extensions = extensions
+        self.valid_extensions = extensions
         self.image_files = []
         self.current_index = -1
         self.current_image_path = None
@@ -25,7 +25,7 @@ class ImageManager:
         current_path = self.get_current_image()
         self.image_files = [
             os.path.join(self.folder, f) for f in os.listdir(self.folder)
-            if f.lower().endswith(self.valied_extensions)
+            if f.lower().endswith(self.valid_extensions)
         ]
         self.image_files.sort(key=os.path.getmtime, reverse=True)
         if not self.image_files:

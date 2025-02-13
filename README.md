@@ -61,7 +61,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 <details>
 <summary><h2>🗂️ Backend Highlights (nerd stuff)</h2></summary>
 
-- `scalable_image_label.py`: An easy to use and modular Tkinter widget that handles the scaling and dispaly of images in a GUI.
+- `scalable_image_label.py`: An easy to use and modular Tkinter widget that handles the scaling and display of images in a GUI.
 - `image_database_manager.py`: This module manages a database of image metadata, extracting information like file size, dimensions, and PNG-specific metadata (prompts, settings). It scans a directory, updates the database (JSON) with new or modified images, and cleans up entries for removed files, enabling efficient searching and filtering of images based on their metadata.
 
 </details>
@@ -72,4 +72,4 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 2. Launch the app using `Start.bat`
 3. When prompted, install the required dependencies.
 4. The app will launch automatically after installation.
-5. Edit the `Start.bat` `FAST_START` varaible to `TRUE` to isntantly launch the app.
+5. Edit the `Start.bat` `FAST_START` variable to `TRUE` to instantly launch the app.

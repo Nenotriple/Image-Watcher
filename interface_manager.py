@@ -209,7 +209,7 @@ class ImageWatcherGUI:
         # Refresh DB
         refresh_db_btn = ttk.Button(filter_frame, text="Refresh", command=self.parent.database_manager.update_database)
         refresh_db_btn.pack(side="left", padx=PAD, pady=PAD)
-        ToolTip(refresh_db_btn, "Refresh the image database and load new file changes from the selected directroy", padx=TIP_PADX, pady=TIP_PADY, delay=TIP_DELAY, wraplength=TIP_WRAP)
+        ToolTip(refresh_db_btn, "Refresh the image database and load new file changes from the selected directory", padx=TIP_PADX, pady=TIP_PADY, delay=TIP_DELAY, wraplength=TIP_WRAP)
         # Help button
         help_btn = ttk.Button(filter_frame, text="?", width=1, command=self.show_filter_help)
         help_btn.pack(side="right", padx=PAD, pady=PAD)
@@ -219,7 +219,7 @@ class ImageWatcherGUI:
     def create_filter_menu(self, filter_frame):
         self.filter_type_menu = ttk.Menubutton(filter_frame, text="Search")
         self.filter_type_menu.pack(side="left", padx=PAD, pady=PAD)
-        ToolTip(self.filter_type_menu, "Select an image paramerter to search in", padx=TIP_PADX, pady=TIP_PADY, delay=TIP_DELAY, wraplength=TIP_WRAP)
+        ToolTip(self.filter_type_menu, "Select an image parameter to search in", padx=TIP_PADX, pady=TIP_PADY, delay=TIP_DELAY, wraplength=TIP_WRAP)
         filter_type_menu = tk.Menu(self.filter_type_menu, tearoff=0)
         self.filter_type_menu['menu'] = filter_type_menu
         # Add ALL option

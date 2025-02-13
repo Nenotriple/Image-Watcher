@@ -2,10 +2,12 @@
 
 # First-party
 import os
+import sys
 import time
 import shlex
+import ctypes
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import TclError, filedialog
 
 # Local
 import help_text
@@ -36,6 +38,8 @@ IMAGE_DB_FILENAME = "IW_database.json"
 class ImageWatcher:
     def __init__(self):
         self.root = tk.Tk()
+        self.application_path = None
+        self.set_appid()
         self.setup_window()
 
         self.observer = None
@@ -76,7 +80,13 @@ class ImageWatcher:
         self.filter_active = False
 
 
+#endregion
+#region - Setup
+
+
     def setup_window(self):
+        self.application_path = self.get_app_path()
+        self.set_icon()
         self.root.title(TITLE)
         # Get screen width and height
         screen_width = self.root.winfo_screenwidth()
@@ -90,6 +100,26 @@ class ImageWatcher:
         self.root.geometry(f"{INITIAL_WINDOW_SIZE}+{x}+{y}")
         self.root.minsize(*map(int, MIN_WINDOW_SIZE.split('x')))
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+
+    def set_appid(self):
+        myappid = 'ImgTxtViewer.Nenotriple'
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+
+    def get_app_path(self):
+        if getattr(sys, 'frozen', False):
+            return sys._MEIPASS
+        elif __file__:
+            return os.path.dirname(__file__)
+        return ""
+
+
+    def set_icon(self):
+        self.icon_path = os.path.join(self.application_path, "icon.ico")
+        try:
+            self.root.iconbitmap(self.icon_path)
+        except TclError: pass
 
 
     def run(self):

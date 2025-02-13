@@ -8,7 +8,7 @@
 
 ## 📝 Usage
 - Download the latest release.
-- Launch the application and select a directory to monitor.
+- Launch the application and select a directory to monitor/manage.
 - Browse images by navigating with the arrow keys or using provided controls.
 - Filter and search images via PNG metadata.
   - Currently only stable-diffusion-webui-forge/stable-diffusion-webui are supported/tested.
@@ -51,7 +51,8 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
  ---
 - **(OR)**: Use `~` to match either term: `mountain ~ lake`
   - Show either *"mountain"* **(OR)** *"lake"*.
-- Use quotes to match exact phrases: `"mountain lake"`
+---
+- **Quoutes**: Use to match exact phrases: `"mountain lake"`
   - Match *"mountain lake"* as a single term.
 ---
 - Use a Mix of **(AND)**, **(OR)**, **(NOT)**, and Parentheses:
@@ -64,7 +65,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 
 
 <details>
-<summary><h2>🗂️ Backend Highlights (nerd stuff)</h2></summary>
+<summary><h2>🗂️ Backend Highlights (nerd stuff)...</h2></summary>
 
 - `scalable_image_label.py`: An easy to use and modular Tkinter widget that handles the scaling and display of images in a GUI.
 - `image_database_manager.py`: This module manages a database of image metadata, extracting information like file size, dimensions, and PNG-specific metadata (prompts, settings). It scans a directory, updates the database (JSON) with new or modified images, and cleans up entries for removed files, enabling efficient searching and filtering of images based on their metadata.

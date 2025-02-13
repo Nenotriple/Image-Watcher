@@ -42,18 +42,23 @@
 ### Operators:
 Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for exact phrases.
 
-- Spaces are treated as **AND** operators.
-- Prefix with `-` to exclude that term **NOT**: `sunset -beach`
-  - Match with *"sunset"* but **NOT** *"beach"*
-- Use `~` to match either term **OR**: `mountain ~ lake`
-  - Show either *"mountain"* **OR** *"lake"*.
+- **(AND)**: Spaces are treated as operators.
+  - `mountain lake` and `"mountain lake"` are treated differently.
+  - Match *"mountain" AND "lake"* vs matching *"mountain lake"* exactly.
+---
+- **(NOT)**: Prefix with `-` to exclude that term: `sunset -beach`
+  - Match with *"sunset"* but **(NOT)** *"beach"*
+ ---
+- **(OR)**: Use `~` to match either term: `mountain ~ lake`
+  - Show either *"mountain"* **(OR)** *"lake"*.
 - Use quotes to match exact phrases: `"mountain lake"`
   - Match *"mountain lake"* as a single term.
-- Use a Mix of **AND**, **OR**, **NOT**, and Parentheses:
+---
+- Use a Mix of **(AND)**, **(OR)**, **(NOT)**, and Parentheses:
   - `"mountain ~ lake" sunset -beach`
-    - Show *"mountain"* **OR** *"lake"* at sunset but **NOT** *"beach"*.
+    - Show *"mountain"* **(OR)** *"lake"* at sunset but **(NOT)** *"beach"*.
   - `-"mountain ~ lake" sunset beach`
-    - **NOT** images of *"mountain"* **OR** *"lake"* at sunset **AND** beach.
+    - **(NOT)** images of *"mountain"* **(OR)** *"lake"* at sunset **(AND)** beach.
 
 </details>
 

@@ -9,7 +9,7 @@ REM Variables
 set "PYTHON_SCRIPT=image_watcher.py"
 set "VENV_DIR=venv"
 set "SCRIPT_DIR=%~dp0"
-set "FAST_START=TRUE"
+set "FAST_START=FALSE"
 
 
 REM Navigate to the script directory

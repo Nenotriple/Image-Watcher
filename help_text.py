@@ -51,7 +51,7 @@ FILTER_HELP_TEXT = """
 
 • Prefix with '-' to exclude that term 'NOT':
     sunset -beach
-Match with "sunset" but NO "beach"
+Match with "sunset" but NOT "beach"
 
 • Use '~' to match either term 'OR':
     mountain ~ lake
@@ -63,7 +63,7 @@ Match "mountain lake" as a single term.
 
 • Use a Mix of AND, OR, NOT, and Parentheses:
 1)  "mountain ~ lake" sunset -beach
-Show "mountain" OR "lake" at sunset but NOT "beach
+Show "mountain" OR "lake" at sunset but NOT "beach".
 
 2)  -"mountain ~ lake" sunset beach
 NOT images of "mountain" OR "lake" at sunset AND beach.

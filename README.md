@@ -44,7 +44,7 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
 
 - **(AND)**: Spaces are treated as operators.
   - `mountain lake` and `"mountain lake"` are treated differently.
-  - Match *"mountain" AND "lake"* vs matching *"mountain lake"* exactly.
+  - Match *"mountain" **(AND)** "lake"* vs matching *"mountain lake"* exactly.
 ---
 - **(NOT)**: Prefix with `-` to exclude that term: `sunset -beach`
   - Match with *"sunset"* but **(NOT)** *"beach"*

@@ -106,7 +106,7 @@ class FileManager:
         if not self.image_manager or not self.gui.image_label.get_image_path():
             return None
         if not quick_move:
-            if not messagebox.askyesno("Confirm Move", "Are you sure you want to move this image?"):
+            if not messagebox.askyesno("Confirm Move", "This will move the image to a local 'Saved Images' folder.\n\nAre you sure you want to move this image?"):
                 return None
         current_image = self.gui.image_label.get_image_path()
         saved_folder = os.path.join(self.watch_folder_path, self.saved_folder_name)

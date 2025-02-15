@@ -95,6 +95,7 @@ class ImageWatcherGUI:
         self.options_menu.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="Change Folder...", command=self.parent.change_folder)
         self.file_menu.add_command(label="Refresh Image Index", command=self.parent.refresh_index)
+        self.file_menu.add_command(label="Refresh Metadata Database", command=self.parent.database_manager.update_database)
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Open Current Folder", command=self.parent.file_manager.show_in_explorer)
         self.file_menu.add_command(label="Open Current Saved Folder", command=self.parent.file_manager.open_saved_folder)
@@ -119,12 +120,13 @@ class ImageWatcherGUI:
         self.view_menu.add_checkbutton(label="Toggle: Live Mode", variable=self.parent.live_check_var, command=self.parent.toggle_live_updates)
         self.view_menu.add_checkbutton(label="Toggle: Command Row", variable=self.parent.show_command_row_var, command=self.toggle_command_row)
         self.view_menu.add_checkbutton(label="Toggle: Always On Top", variable=self.parent.always_on_top_var, command=self.toggle_always_on_top)
+        self.view_menu.add_separator()
+        self.view_menu.add_radiobutton(label="Image Mode: Fill", variable=self.parent.image_scale_mode_var, value="fill", command=lambda: self.image_label.set_scale_mode('fill'))
+        self.view_menu.add_radiobutton(label="Image Mode: Center", variable=self.parent.image_scale_mode_var, value="center", command=lambda: self.image_label.set_scale_mode('center'))
+        self.view_menu.add_separator()
+        self.view_menu.add_checkbutton(label="Swap Image/Stats", variable=self.parent.image_paned_window_swap_var, command=self.configure_image_paned_window)
+        self.view_menu.add_checkbutton(label="Swap Horizontal/Vertical", variable=self.parent.image_paned_window_horizontal_var, command=self.configure_image_paned_window)
         self.view_menu.add_checkbutton(label="Swap Nav Row Top/Bottom", variable=self.parent.swap_nav_row_var, command=self.swap_nav_row)
-        # Stats submenu (View)
-        self.stats_menu = tk.Menu(self.view_menu, tearoff=0)
-        self.view_menu.add_cascade(label="Stats View", menu=self.stats_menu)
-        self.stats_menu.add_checkbutton(label="Swap Image/Stats", variable=self.parent.image_paned_window_swap_var, command=self.configure_image_paned_window)
-        self.stats_menu.add_checkbutton(label="Swap Horizontal/Vertical", variable=self.parent.image_paned_window_horizontal, command=self.configure_image_paned_window)
         # About menu
         self.options_menu.add_command(label="About", command=self.show_about_dialog)
 
@@ -138,7 +140,7 @@ class ImageWatcherGUI:
         image_pane = ttk.Frame(self.image_paned_window)
         image_pane.grid_rowconfigure(0, weight=1)
         image_pane.grid_columnconfigure(0, weight=1)
-        self.image_label = ScalableImageLabel(image_pane, keep_aspect=True, scaling_method='lanczos')
+        self.image_label = ScalableImageLabel(image_pane)
         self.image_label.grid(row=0, column=0, sticky="nsew")
         self.image_paned_window.add(image_pane, stretch="always", minsize=100)
         # Stats Pane
@@ -153,15 +155,16 @@ class ImageWatcherGUI:
         self.image_context_menu = tk.Menu(self.root, tearoff=0)
         self.image_context_menu.add_command(label="Open Image", command=self.parent.file_manager.open_image)
         self.image_context_menu.add_command(label="Show in File Explorer", command=self.parent.file_manager.show_in_explorer)
-        self.image_context_menu.add_command(label="Export Image Metadata", command=self.parent.export_current_image_metadata)
+        self.image_context_menu.add_command(label="Export Image Metadata...", command=self.parent.export_current_image_metadata)
         self.image_context_menu.add_separator()
         self.image_context_menu.add_command(label="Delete", accelerator="Del", command=self.parent.delete_image)
-        self.image_context_menu.add_command(label="Move to Saved", accelerator="Ins", command=self.parent.move_image_to_saved_folder)
+        self.image_context_menu.add_command(label="Save", accelerator="Ins", command=self.parent.move_image_to_saved_folder)
         self.image_context_menu.add_separator()
         self.image_context_menu.add_command(label="Move To...", command=self.parent.move_image_to)
         self.image_context_menu.add_command(label="Copy To...", command=self.parent.copy_image_to)
         self.image_context_menu.add_separator()
-        self.image_context_menu.add_checkbutton(label="Command Row", variable=self.parent.show_command_row_var, command=self.toggle_command_row)
+        self.image_context_menu.add_radiobutton(label="Image Mode: Fill", variable=self.parent.image_scale_mode_var, value="fill", command=lambda: self.image_label.set_scale_mode('fill'))
+        self.image_context_menu.add_radiobutton(label="Image Mode: Center", variable=self.parent.image_scale_mode_var, value="center", command=lambda: self.image_label.set_scale_mode('center'))
 
 
     def create_bottom_frame(self, frame):
@@ -357,7 +360,7 @@ class ImageWatcherGUI:
 
     def configure_image_paned_window(self):
         # Handle pane orientation
-        orientation = "horizontal" if self.parent.image_paned_window_horizontal.get() else "vertical"
+        orientation = "vertical" if self.parent.image_paned_window_horizontal_var.get() else "horizontal"
         self.image_paned_window.configure(orient=orientation)
         # Remove existing panes
         for pane in self.image_paned_window.panes():

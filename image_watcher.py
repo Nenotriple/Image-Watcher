@@ -22,7 +22,7 @@ from image_database_manager import DatabaseManager
 #region - Constants
 
 
-TITLE = "Image Watcher"
+TITLE = "Image-Watcher"
 INITIAL_WINDOW_SIZE = "800x750"
 MIN_WINDOW_SIZE = "200x150"
 

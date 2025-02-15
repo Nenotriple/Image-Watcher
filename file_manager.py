@@ -21,6 +21,9 @@ class FileManager:
     def initialize_gui_in_filemanager(self, gui):
         self.gui = gui
 
+    def initialize_watch_folder(self, watch_folder_path):
+        self.watch_folder_path = watch_folder_path
+
 
 #endregion
 #region - Helper Functions

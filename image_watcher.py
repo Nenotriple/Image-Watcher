@@ -216,6 +216,7 @@ class ImageWatcher:
             # Update folder and managers
             self.watch_folder_path = new_folder
             self.image_manager = ImageManager(self.watch_folder_path, VALID_EXTENSIONS)
+            self.file_manager.initialize_watch_folder(self.watch_folder_path)
             # Update database manager with new path
             self.database_manager.update_watch_folder(new_folder)
             # Setup new watchdog for the new path

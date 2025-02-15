@@ -43,6 +43,7 @@ class ImageWatcher:
         self.setup_window()
 
         self.observer = None
+        self.file_manager = None
         self.image_manager = None
         self.database_manager = None
         self.watchdog_manager = None
@@ -58,11 +59,14 @@ class ImageWatcher:
         self.quick_delete_var = tk.BooleanVar(value=False)
         self.swap_nav_row_var = tk.BooleanVar(value=False)
         self.always_on_top_var = tk.BooleanVar(value=False)
-        self.text_stat_size_var = tk.StringVar(value="Medium")
         self.show_command_row_var = tk.BooleanVar(value=True)
+        self.image_scale_mode_var = tk.StringVar(value="fill")
+        self.text_stat_size_var = tk.StringVar(value="Medium")
         self.image_paned_window_swap_var = tk.BooleanVar(value=False)
-        self.image_paned_window_horizontal = tk.BooleanVar(value=True)
+        self.image_paned_window_horizontal_var = tk.BooleanVar(value=False)
 
+        self.previous_live_state = None
+        self.filter_active = False
         self.filter_states = {
             "ALL": tk.BooleanVar(value=True),
             "Positive Prompt": tk.BooleanVar(value=True),
@@ -74,10 +78,6 @@ class ImageWatcher:
             "Size": tk.BooleanVar(value=True),
             "Model": tk.BooleanVar(value=True)
         }
-
-        self.previous_live_state = None
-        self.file_manager = None
-        self.filter_active = False
 
 
 #endregion
@@ -234,7 +234,7 @@ class ImageWatcher:
 
     def display_image(self, image_path):
         try:
-            self.gui.image_label.update_image(image_path)
+            self.gui.image_label.set_image(image_path)
             self.update_image_stats()
         except Exception as e:
             print("ERROR: display_image - loading image:", e)

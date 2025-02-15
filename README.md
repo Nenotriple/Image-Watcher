@@ -3,7 +3,7 @@
 <p align="center"><img src="https://github.com/user-attachments/assets/f47f6670-9698-4635-b855-c89a0f6482b7" alt="cover"></p>
 
 
-## [💾 Download Latest Release](https://github.com/Nenotriple/Image-Watcher/releases/tag/v1.0)
+## [💾 Download Latest Release](https://github.com/Nenotriple/Image-Watcher/releases)
 
 
 ## 📝 Usage
@@ -60,15 +60,6 @@ Quick explanation: `AND` is `space`, `OR` is `~`, `NOT` is `-`, use quotes for e
     - Show *"mountain"* **OR** *"lake"* at sunset but **NOT** *"beach"*.
   - `-"mountain ~ lake" sunset beach`
     - **NOT** images of *"mountain"* **OR** *"lake"* at *"sunset"* **AND** *""beach"*.
-
-</details>
-
-
-<details>
-<summary><h2>🗂️ Backend Highlights (nerd stuff)...</h2></summary>
-
-- `scalable_image_label.py`: An easy to use and modular Tkinter widget that handles the scaling and display of images in a GUI.
-- `image_database_manager.py`: This module manages a database of image metadata, extracting information like file size, dimensions, and PNG-specific metadata (prompts, settings). It scans a directory, updates the database (JSON) with new or modified images, and cleans up entries for removed files, enabling efficient searching and filtering of images based on their metadata.
 
 </details>
 

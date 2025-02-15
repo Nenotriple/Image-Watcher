@@ -104,7 +104,8 @@ class ImageWatcherGUI:
         self.edit_menu = tk.Menu(self.options_menu, tearoff=0)
         self.options_menu.add_cascade(label="Edit", menu=self.edit_menu)
         self.edit_menu.add_command(label="Delete Current Image", accelerator="Del", command=self.parent.delete_image)
-        self.edit_menu.add_command(label="Move Current Image to Saved", accelerator="Ins", command=self.parent.move_image_to_saved_folder)
+        self.edit_menu.add_command(label="Save Current Image", accelerator="Ins", command=self.parent.move_image_to_saved_folder)
+        self.edit_menu.add_separator()
         self.edit_menu.add_command(label="Export Current Image Metadata", command=self.parent.export_current_image_metadata)
         self.edit_menu.add_command(label="Export ALL Image Metadata", command=self.parent.export_all_metadata)
         self.edit_menu.add_separator()
@@ -124,9 +125,9 @@ class ImageWatcherGUI:
         self.view_menu.add_radiobutton(label="Image Mode: Fill", variable=self.parent.image_scale_mode_var, value="fill", command=lambda: self.image_label.set_scale_mode('fill'))
         self.view_menu.add_radiobutton(label="Image Mode: Center", variable=self.parent.image_scale_mode_var, value="center", command=lambda: self.image_label.set_scale_mode('center'))
         self.view_menu.add_separator()
-        self.view_menu.add_checkbutton(label="Swap Image/Stats", variable=self.parent.image_paned_window_swap_var, command=self.configure_image_paned_window)
-        self.view_menu.add_checkbutton(label="Swap Horizontal/Vertical", variable=self.parent.image_paned_window_horizontal_var, command=self.configure_image_paned_window)
-        self.view_menu.add_checkbutton(label="Swap Nav Row Top/Bottom", variable=self.parent.swap_nav_row_var, command=self.swap_nav_row)
+        self.view_menu.add_checkbutton(label="Swap: Image/Stats", variable=self.parent.image_paned_window_swap_var, command=self.configure_image_paned_window)
+        self.view_menu.add_checkbutton(label="Swap: Horizontal/Vertical", variable=self.parent.image_paned_window_horizontal_var, command=self.configure_image_paned_window)
+        self.view_menu.add_checkbutton(label="Swap: Nav-Row Top/Bottom", variable=self.parent.swap_nav_row_var, command=self.swap_nav_row)
         # About menu
         self.options_menu.add_command(label="About", command=self.show_about_dialog)
 

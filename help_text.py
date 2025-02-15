@@ -49,24 +49,32 @@ FILTER_HELP_TEXT = """
 ----------------------------------------
 - Operators:
 ----------------------------------------
-• Spaces are treated as AND operators.
+Quick explanation:
+    AND is 'space'
+    OR is '~'
+    NOT is '-'
+    Use "quotes" for exact phrases.
 
-• Prefix with '-' to exclude that term 'NOT':
-    sunset -beach
-Match with "sunset" but NOT "beach"
+• AND: Spaces are treated as operators.
+    mountain lake vs "mountain lake"
+Match "mountain" AND "lake" vs matching "mountain lake".
 
-• Use '~' to match either term 'OR':
+• OR: Use ~ to match either term:
     mountain ~ lake
 Show either "mountain" OR "lake".
 
-• Use quotes to match exact phrases:
+• NOT: Prefix with - to exclude that term:
+    sunset -beach
+Match with "sunset" but NOT "beach".
+
+• Quotes: Use to match exact phrases:
     "mountain lake"
 Match "mountain lake" as a single term.
 
-• Use a Mix of AND, OR, NOT, and Parentheses:
+• Use a Mix of AND, OR, NOT, and Quotes:
 1)  "mountain ~ lake" sunset -beach
-Show "mountain" OR "lake" at sunset but NOT "beach".
+Show "mountain" OR "lake" at "sunset" but NOT "beach".
 
 2)  -"mountain ~ lake" sunset beach
-NOT images of "mountain" OR "lake" at sunset AND beach.
+NOT images of "mountain" OR "lake" at "sunset" AND "beach".
 """

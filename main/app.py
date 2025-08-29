@@ -485,12 +485,12 @@ class ImageWatcher:
 
 
     def delete_image(self):
-        current_index = self.file_manager.delete_image(self.quick_delete_var.get())
+        current_index = self.file_manager.delete_image(self.quick_delete_var.get(), self.database_manager)
         self._after_process_navigation(current_index)
 
 
     def move_image_to_saved_folder(self):
-        current_index = self.file_manager.move_image_to_saved_folder(self.quick_move_var.get())
+        current_index = self.file_manager.move_image_to_saved_folder(self.quick_move_var.get(), self.database_manager)
         self._after_process_navigation(current_index)
 
 
@@ -512,7 +512,7 @@ class ImageWatcher:
 
 
     def move_image_to(self):
-        current_index = self.file_manager.move_image_to()
+        current_index = self.file_manager.move_image_to(self.database_manager)
         self._after_process_navigation(current_index)
 
 

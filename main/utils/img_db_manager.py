@@ -1,10 +1,12 @@
-#region - Imports
+#region Imports
 
 
 # First-party
 import os
 import json
 import time
+
+# UI
 import tkinter as tk
 from tkinter import ttk
 
@@ -14,7 +16,7 @@ from PIL import Image
 
 
 #endregion
-#region - ProgressPopup
+#region ProgressPopup
 
 
 class ProgressPopup:
@@ -58,7 +60,7 @@ class ProgressPopup:
 
 
 #endregion
-#region - DatabaseManager
+#region DatabaseManager
 
 
 class DatabaseManager:
@@ -78,7 +80,7 @@ class DatabaseManager:
 
 
 #endregion
-#region - Load/Save database
+#region Load/Save database
 
 
     def load_database(self):
@@ -100,7 +102,7 @@ class DatabaseManager:
 
 
 #endregion
-#region - Extract metadata
+#region Extract metadata
 
 
     def extract_png_metadata(self, filepath):
@@ -171,7 +173,7 @@ class DatabaseManager:
 
 
 #endregion
-#region - Update database
+#region Update database
 
 
     def update_database(self, recursive=False):

@@ -1,11 +1,13 @@
-#region - Imports
+#region Imports
 
-# First-party
+# UI
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-# Custom
-from scalable_image_label import ScalableImageLabel
+# Local
+from ui.help_window.help_win import HelpWindow
+import ui.help_window.help_text as help_text
+from ui.scalable_image_label import ScalableImageLabel
 
 # Third-party
 from TkToolTip.TkToolTip import TkToolTip as ToolTip
@@ -22,13 +24,14 @@ TIP_WRAP = 250
 
 
 #endregion
-#region - GUI Setup
+#region GUI Setup
 
 
-class ImageWatcherGUI:
+class MainUI:
     def __init__(self, root, parent):
         self.root = root
         self.parent = parent
+        self.help_window = HelpWindow(self.root)
         self.image_label = None
         self.navigation_bindings = []
         self.last_index = 0
@@ -266,7 +269,7 @@ class ImageWatcherGUI:
 
 
 #endregion
-#region - Bindings and Events
+#region Bindings and Events
 
 
     def setup_bindings(self):
@@ -313,7 +316,7 @@ class ImageWatcherGUI:
 
 
 #endregion
-#region - GUI Logic
+#region GUI Logic
 
 
     def toggle_always_on_top(self):
@@ -388,13 +391,11 @@ class ImageWatcherGUI:
 
 
     def show_filter_help(self):
-        help_text = self.parent.help_text.FILTER_HELP_TEXT
-        messagebox.showinfo("Filter Help", help_text)
+        self.help_window.open_window(title="Filter Help", text=help_text.FILTER_HELP_TEXT)
 
 
     def show_about_dialog(self):
-        about_text = self.parent.help_text.ABOUT_TEXT
-        messagebox.showinfo("About", about_text)
+        self.help_window.open_window(title="About", text=help_text.ABOUT_TEXT)
 
 
     def swap_nav_row(self):
@@ -419,7 +420,7 @@ class ImageWatcherGUI:
 
 
 #endregion
-#region - Navigation
+#region Navigation
 
 
     def wheel_navigate(self, event):
@@ -448,7 +449,7 @@ class ImageWatcherGUI:
 
 
 #endregion
-#region - Window Dragging
+#region Window Dragging
 
 
     def start_move(self, event):

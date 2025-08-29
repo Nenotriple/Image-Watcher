@@ -1,25 +1,26 @@
-#region - Imports
+#region Imports
 
-# First-party
+# Standard
 import os
 import sys
 import time
 import shlex
 import ctypes
+
+# UI
 import tkinter as tk
 from tkinter import TclError, filedialog
 
 # Local
-import help_text
-from file_manager import FileManager
-from image_manager import ImageManager
-from watchdog_manager import WatchdogManager
-from interface_manager import ImageWatcherGUI
-from image_database_manager import DatabaseManager
+from ui.interface_manager import MainUI
+from utils.file_manager import FileManager
+from utils.img_manager import ImageManager
+from utils.watchdog_manager import WatchdogManager
+from utils.img_db_manager import DatabaseManager
 
 
 #endregion
-#region - Constants
+#region Constants
 
 
 TITLE = "Image-Watcher"
@@ -32,7 +33,7 @@ IMAGE_DB_FILENAME = "IW_database.json"
 
 
 #endregion
-#region - ImageWatcher
+#region Main
 
 
 class ImageWatcher:
@@ -81,7 +82,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Setup
+#region Setup
 
 
     def setup_window(self):
@@ -127,11 +128,10 @@ class ImageWatcher:
         if not self.watch_folder_path:
             self.root.destroy()
             return
-        self.help_text = help_text
         self.image_manager = ImageManager(self.watch_folder_path, VALID_EXTENSIONS)
         self.database_manager = DatabaseManager(self.root, self.watch_folder_path, VALID_EXTENSIONS, IMAGE_DB_FILENAME)
         self.file_manager = FileManager(self.watch_folder_path, self.image_manager, SAVED_FOLDER_NAME)
-        self.gui = ImageWatcherGUI(self.root, self)
+        self.gui = MainUI(self.root, self)
         self.gui.setup_gui()
         self.file_manager.initialize_gui_in_filemanager(self.gui)
         self.setup_watchdog()
@@ -148,7 +148,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Watchdog
+#region Watchdog
 
 
     def setup_watchdog(self):
@@ -168,7 +168,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Navigation
+#region Navigation
 
     def check_file_changes(self):
         """Check if files have changed and update index if needed."""
@@ -230,7 +230,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Image Display
+#region Image Display
 
 
     def display_image(self, image_path):
@@ -292,7 +292,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Image Stats
+#region Image Stats
 
 
     def update_image_stats(self):
@@ -349,7 +349,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Filtering Logic
+#region Filtering Logic
 
 
     def apply_filters(self):
@@ -481,7 +481,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - File Handling
+#region File Handling
 
 
     def delete_image(self):
@@ -529,7 +529,7 @@ class ImageWatcher:
 
 
 #endregion
-#region - Main
+#region Main
 
 
 def main():

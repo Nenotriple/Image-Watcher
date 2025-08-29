@@ -1,14 +1,16 @@
-#region - Imports
+#region Imports
 
-# First-party
+# Standard
 import os
 import shutil
 import subprocess
+
+# UI
 from tkinter import messagebox, filedialog
 
 
 #endregion
-#region - FileManager
+#region FileManager
 
 
 class FileManager:
@@ -26,7 +28,7 @@ class FileManager:
 
 
 #endregion
-#region - Helper Functions
+#region Helpers
 
 
     def _perform_file_operation(self, source_path, target_folder, operation):
@@ -62,7 +64,7 @@ class FileManager:
 
 
 #endregion
-#region - File Operations
+#region File Ops
 
 
     def open_image(self):
@@ -178,7 +180,7 @@ class FileManager:
 
 
 #endregion
-#region - Metadata
+#region Metadata
 
 
     def format_metadata(self, metadata):

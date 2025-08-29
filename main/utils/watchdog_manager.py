@@ -1,4 +1,4 @@
-#region - Imports
+#region Imports
 
 
 # Third-party
@@ -8,7 +8,7 @@ from threading import Timer
 
 
 #endregion
-#region - ImageEventHandler
+#region ImageEventHandler
 
 
 class ImageEventHandler(FileSystemEventHandler):
@@ -26,7 +26,7 @@ class ImageEventHandler(FileSystemEventHandler):
 
 
 #endregion
-#region - WatchdogManager
+#region WatchdogManager
 
 
 class WatchdogManager:

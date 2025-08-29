@@ -1,4 +1,4 @@
-#region - Imports
+#region Imports
 
 
 # First-party
@@ -6,7 +6,7 @@ import os
 
 
 #endregion
-#region - ImageManager
+#region ImageManager
 
 
 class ImageManager:

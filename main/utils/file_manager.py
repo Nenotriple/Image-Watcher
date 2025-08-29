@@ -87,7 +87,7 @@ class FileManager:
             messagebox.showinfo("Info", "No saved images folder found.")
 
 
-    def delete_image(self, quick_delete=False):
+    def delete_image(self, quick_delete=False, database_manager=None):
         current_image = self.gui.image_label.get_image_path()
         if not current_image:
             return None
@@ -98,13 +98,16 @@ class FileManager:
             current_index = self.image_manager.current_index
             os.remove(current_image)
             self.image_manager.refresh_image_list(reset_index=False)
+            # Remove from database if manager provided
+            if database_manager is not None:
+                database_manager.remove_entry(current_image)
             return current_index
         except Exception as e:
             messagebox.showerror("Error", f"Could not delete image: {str(e)}")
             return None
 
 
-    def move_image_to_saved_folder(self, quick_move=False):
+    def move_image_to_saved_folder(self, quick_move=False, database_manager=None):
         if not self.image_manager or not self.gui.image_label.get_image_path():
             return None
         if not quick_move:
@@ -120,6 +123,9 @@ class FileManager:
             new_path = self._get_unique_path(current_image, saved_folder)
             os.rename(current_image, new_path)
             self.image_manager.refresh_image_list(reset_index=False)
+            # Remove from database if manager provided
+            if database_manager is not None:
+                database_manager.remove_entry(current_image)
             return current_index
         except Exception as e:
             messagebox.showerror("Error", f"Could not move image: {str(e)}")
@@ -150,7 +156,7 @@ class FileManager:
         return True
 
 
-    def move_image_to(self):
+    def move_image_to(self, database_manager=None):
         current_image = self.gui.image_label.get_image_path()
         if not current_image:
             messagebox.showinfo("Info", "No image selected.")
@@ -163,6 +169,9 @@ class FileManager:
         if success:
             messagebox.showinfo("Success", f"Moved image to:\n{target_folder}")
             self.image_manager.refresh_image_list(reset_index=False)
+            # Remove from database if manager provided
+            if database_manager is not None:
+                database_manager.remove_entry(current_image)
             return current_index
         return None
 

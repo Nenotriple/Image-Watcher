@@ -130,6 +130,25 @@ class DatabaseManager:
         return database
 
 
+    def get_all_prompt_tags(self):
+        """Collects all unique tags from positive and negative prompts in the database.
+        Returns:
+            (set, set): (positive_tags, negative_tags)
+        """
+        database = self.load_database()
+        positive_tags = set()
+        negative_tags = set()
+        for entry in database.values():
+            pos_prompt = entry.get("Positive Prompt", "")
+            neg_prompt = entry.get("Negative Prompt", "")
+            # Split by comma, strip whitespace, ignore empty
+            pos_tags = [tag.strip() for tag in pos_prompt.split(",") if tag.strip()]
+            neg_tags = [tag.strip() for tag in neg_prompt.split(",") if tag.strip()]
+            positive_tags.update(pos_tags)
+            negative_tags.update(neg_tags)
+        return positive_tags, negative_tags
+
+
     #endregion
     #region Database IO
 

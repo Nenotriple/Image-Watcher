@@ -2,7 +2,7 @@
 
 # UI
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk
 
 # Local
 from ui.help_window.help_win import HelpWindow
@@ -11,7 +11,6 @@ from ui.scalable_image_label import ScalableImageLabel
 
 # Third-party
 from TkToolTip.TkToolTip import TkToolTip as ToolTip
-
 
 # UI padding
 PAD = 2
@@ -44,7 +43,8 @@ class MainUI:
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
         self.create_control_frame(frame)
-        self.create_image_label(frame)
+        self.create_panedwindow(frame)
+        self.create_stats_frame()
         self.create_bottom_frame(frame)
         self.setup_bindings()
 
@@ -71,7 +71,7 @@ class MainUI:
         # Quick switch button
         self.quick_switch_button = ttk.Button(control_frame, text="!", width=1, takefocus=False, command=self.on_status_flag_click)
         self.quick_switch_button.grid(row=0, column=3, sticky="ns", padx=1)
-        self.quick_switch_tooltip = ToolTip(self.quick_switch_button, "...", padx=TIP_PADX, pady=TIP_PADY)
+        self.quick_switch_tooltip = ToolTip(self.quick_switch_button, "Quick switch between first and last viewed image", padx=TIP_PADX, pady=TIP_PADY)
         # Options menu
         self.create_control_options_menu(control_frame)
 
@@ -82,6 +82,7 @@ class MainUI:
         # Current index entry
         self.current_index_entry = ttk.Entry(count_frame, width=5, justify='right')
         self.current_index_entry.pack(side='left')
+        ToolTip(self.current_index_entry, "Jump to image index (1-based). Press Enter.", padx=TIP_PADX, pady=TIP_PADY, delay=TIP_DELAY, wraplength=TIP_WRAP)
         # Total count label
         ttk.Label(count_frame, text="/").pack(side='left')
         self.total_count_label = ttk.Label(count_frame, text="0")
@@ -135,18 +136,18 @@ class MainUI:
         self.options_menu.add_command(label="About", command=self.show_about_dialog)
 
 
-    def create_image_label(self, frame):
+    def create_panedwindow(self, frame):
         # Create a PanedWindow
         self.image_paned_window = tk.PanedWindow(frame, orient="horizontal", sashwidth=6, bg="#d0d0d0", bd=0)
         self.image_paned_window.grid(row=1, column=0, sticky="nsew")
         frame.grid_rowconfigure(1, weight=1)
         # Image Pane
-        image_pane = ttk.Frame(self.image_paned_window)
-        image_pane.grid_rowconfigure(0, weight=1)
-        image_pane.grid_columnconfigure(0, weight=1)
-        self.image_label = ScalableImageLabel(image_pane)
+        self.image_pane = ttk.Frame(self.image_paned_window)
+        self.image_pane.grid_rowconfigure(0, weight=1)
+        self.image_pane.grid_columnconfigure(0, weight=1)
+        self.image_label = ScalableImageLabel(self.image_pane)
         self.image_label.grid(row=0, column=0, sticky="nsew")
-        self.image_paned_window.add(image_pane, stretch="always", minsize=100)
+        self.image_paned_window.add(self.image_pane, stretch="always", minsize=100)
         # Stats Pane
         self.stats_pane = ttk.Frame(self.image_paned_window)
         self.stats_pane.grid_rowconfigure(0, weight=1)
@@ -177,7 +178,6 @@ class MainUI:
         self.bottom_frame.grid_columnconfigure(0, weight=1)
         self.bottom_frame.grid_rowconfigure(1, weight=1)
         self.create_command_buttons()
-        self.create_stats_frame()
 
 
     def create_command_buttons(self):
@@ -244,28 +244,49 @@ class MainUI:
 
 
     def create_stats_frame(self):
-        self.stats_frame = ttk.LabelFrame(self.stats_pane, text="Image Stats")
-        self.stats_frame.grid(row=0, column=0, sticky="nsew")
+        self.create_stats_notebook()
+        self.create_image_stats_tab()
+        self.create_database_stats_tab()
+
+
+    def create_stats_notebook(self):
+        self.stats_notebook = ttk.Notebook(self.stats_pane)
+        self.stats_notebook.grid(row=0, column=0, sticky="nsew")
+        self.stats_pane.grid_rowconfigure(0, weight=1)
+        self.stats_pane.grid_columnconfigure(0, weight=1)
+
+
+    def create_image_stats_tab(self):
+        # Frame
+        self.stats_frame = ttk.Frame(self.stats_notebook)
         self.stats_frame.grid_columnconfigure(0, weight=1)
         self.stats_frame.grid_rowconfigure(1, weight=1)
-        # Header frame for label and options
+        # Sub_frame
         stat_sub_frame = ttk.Frame(self.stats_frame)
         stat_sub_frame.grid(row=0, column=0, sticky="nsew")
         stat_sub_frame.grid_columnconfigure(0, weight=1)
         # Label
         self.stats_label = ttk.Label(stat_sub_frame, text="", justify="left")
         self.stats_label.grid(row=0, column=0, padx=PAD, pady=PAD, sticky="w")
-        # Stats Text
+        # Text
         text_frame = ttk.Frame(self.stats_frame)
         text_frame.grid(row=1, column=0, padx=PAD, pady=PAD, sticky="nsew")
         text_frame.grid_columnconfigure(0, weight=1)
         text_frame.grid_rowconfigure(0, weight=1)
-        # Text widget with scrollbar
         self.stats_text = tk.Text(text_frame, wrap="word", height=10, width=5)
         self.stats_text.grid(row=0, column=0, sticky="nsew")
         scrollbar = ttk.Scrollbar(text_frame, orient="vertical", command=self.stats_text.yview)
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.stats_text.configure(yscrollcommand=scrollbar.set)
+        # Add tab
+        self.stats_notebook.add(self.stats_frame, text="Image Stats")
+
+
+    def create_database_stats_tab(self):
+        # Frame
+        self.db_stats_frame = ttk.Frame(self.stats_notebook)
+        # Add tab
+        self.stats_notebook.add(self.db_stats_frame, text="Database Stats")
 
 
 #endregion
@@ -316,6 +337,43 @@ class MainUI:
 
 
 #endregion
+#region Helpers
+
+
+    def _toggle_grid(self, widget, show: bool):
+        if show:
+            widget.grid()
+        else:
+            widget.grid_remove()
+
+
+    def _place_main_layout(self, nav_on_bottom: bool):
+        self.control_frame.grid_forget()
+        self.image_paned_window.grid_forget()
+        self.bottom_frame.grid_forget()
+        root = self.control_frame.master
+
+        if nav_on_bottom:
+            self.image_paned_window.grid(row=0, column=0, sticky="nsew")
+            root.grid_rowconfigure(0, weight=1)
+            self.control_frame.grid(row=1, column=0, sticky="ew")
+            root.grid_rowconfigure(1, weight=0)
+            self.bottom_frame.grid(row=2, column=0, sticky="nsew")
+            root.grid_rowconfigure(2, weight=0)
+        else:
+            self.control_frame.grid(row=0, column=0, sticky="ew")
+            root.grid_rowconfigure(0, weight=0)
+            self.image_paned_window.grid(row=1, column=0, sticky="nsew")
+            root.grid_rowconfigure(1, weight=1)
+            self.bottom_frame.grid(row=2, column=0, sticky="nsew")
+            root.grid_rowconfigure(2, weight=0)
+        if self.parent.show_command_row_var.get():
+            self.command_frame.grid()
+        else:
+            self.command_frame.grid_remove()
+
+
+#endregion
 #region GUI Logic
 
 
@@ -324,26 +382,18 @@ class MainUI:
 
 
     def check_bottom_frame_visibility(self):
-        if not self.parent.show_command_row_var.get():
-            self.bottom_frame.grid_remove()
-        else:
-            self.bottom_frame.grid()
+        self._toggle_grid(self.bottom_frame, self.parent.show_command_row_var.get())
 
 
     def toggle_command_row(self):
-        if self.parent.show_command_row_var.get():
-            self.command_frame.grid()
-        else:
-            self.command_frame.grid_remove()
+        self._toggle_grid(self.command_frame, self.parent.show_command_row_var.get())
         self.check_bottom_frame_visibility()
 
 
     def toggle_stats(self):
+        self._toggle_grid(self.stats_frame, self.parent.show_stats_var.get())
         if self.parent.show_stats_var.get():
-            self.stats_frame.grid()
             self.parent.update_image_stats()
-        else:
-            self.stats_frame.grid_remove()
         self.check_bottom_frame_visibility()
 
 
@@ -380,14 +430,14 @@ class MainUI:
 
     def on_index_entry(self, event):
         try:
-            index = int(self.current_index_entry.get()) - 1  # Convert to 0-based index
-            if self.parent.image_manager:
-                if self.parent.image_manager.set_index(index):
-                    self.parent.navigate(index=index)
-                else:
-                    self.update_count_label()  # Reset to current value if invalid
+            index = int(self.current_index_entry.get()) - 1
         except ValueError:
-            self.update_count_label()  # Reset to current value if invalid input
+            self.update_count_label()
+            return
+        if not self.parent.image_manager or not self.parent.image_manager.set_index(index):
+            self.update_count_label()
+            return
+        self.parent.navigate(index=index)
 
 
     def show_filter_help(self):
@@ -399,24 +449,8 @@ class MainUI:
 
 
     def swap_nav_row(self):
-        self.control_frame.grid_forget()
-        self.image_paned_window.grid_forget()
-        self.bottom_frame.grid_forget()
-        root = self.control_frame.master
-        if self.parent.swap_nav_row_var.get():
-            self.image_paned_window.grid(row=0, column=0, sticky="nsew")
-            root.grid_rowconfigure(0, weight=1)
-            self.control_frame.grid(row=1, column=0, sticky="ew")
-            root.grid_rowconfigure(1, weight=0)
-            self.bottom_frame.grid(row=2, column=0, sticky="nsew")
-            root.grid_rowconfigure(2, weight=0)
-        else:
-            self.control_frame.grid(row=0, column=0, sticky="ew")
-            root.grid_rowconfigure(0, weight=0)
-            self.image_paned_window.grid(row=1, column=0, sticky="nsew")
-            root.grid_rowconfigure(1, weight=1)
-            self.bottom_frame.grid(row=2, column=0, sticky="nsew")
-            root.grid_rowconfigure(2, weight=0)
+        self._place_main_layout(self.parent.swap_nav_row_var.get())
+        self.check_bottom_frame_visibility()
 
 
 #endregion
@@ -424,25 +458,18 @@ class MainUI:
 
 
     def wheel_navigate(self, event):
-        if not self.parent.image_manager:
-            return
-        if event.delta < 0:
-            self.parent.navigate("next")
-        else:
-            self.parent.navigate("prev")
+        if self.parent.image_manager:
+            self.parent.navigate("next" if event.delta < 0 else "prev")
 
 
     def on_status_flag_click(self):
         if not self.parent.image_manager or not self.parent.image_manager.image_files:
             return
-
         if self.parent.image_manager.current_index == 0:
-            # We're at index 0, try to return to last position
             if self.parent.image_manager.recall_position():
                 self.quick_switch_button['text'] = "⤸"
                 self.parent.navigate(index=self.parent.image_manager.current_index)
         else:
-            # Store current position and go to index 0
             self.parent.image_manager.remember_position()
             self.quick_switch_button['text'] = "⤹"
             self.parent.navigate(index=0)

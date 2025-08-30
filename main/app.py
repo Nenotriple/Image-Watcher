@@ -117,7 +117,7 @@ class ImageWatcher:
 
 
     def set_icon(self):
-        self.icon_path = os.path.join(self.application_path, "icon.ico")
+        self.icon_path = os.path.join(self.application_path, "ui", "icon.ico")
         try:
             self.root.iconbitmap(self.icon_path)
         except TclError: pass

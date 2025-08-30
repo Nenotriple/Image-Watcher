@@ -11,6 +11,11 @@ import ctypes
 import tkinter as tk
 from tkinter import TclError, filedialog
 
+# Typing
+from typing import TYPE_CHECKING, Optional
+if TYPE_CHECKING:
+    from watchdog.observers.api import BaseObserver
+
 # Local
 from ui.interface_manager import MainUI
 from utils.file_manager import FileManager
@@ -36,23 +41,23 @@ IMAGE_DB_FILENAME = "IW_database.json"
 #region Main
 
 
-class ImageWatcher:
+class Main:
     def __init__(self):
         self.root = tk.Tk()
         self.application_path = None
         self.set_appid()
         self.setup_window()
 
-        self.observer = None
-        self.file_manager = None
-        self.image_manager = None
-        self.database_manager = None
-        self.watchdog_manager = None
-        self.watch_folder_path = None
-        self.current_image_path = None
-        self._drag_data = {"x": 0, "y": 0}
-        self.last_known_file_count = 0
-        self.last_index = 0
+        self.observer: BaseObserver | None = None
+        self.file_manager: FileManager | None = None
+        self.image_manager: ImageManager | None = None
+        self.database_manager: DatabaseManager | None = None
+        self.watchdog_manager: WatchdogManager | None = None
+        self.watch_folder_path: str | None = None
+        self.current_image_path: str | None = None
+        self._drag_data: dict[str, int] = {"x": 0, "y": 0}
+        self.last_known_file_count: int = 0
+        self.last_index: int = 0
 
         self.live_check_var = tk.BooleanVar(value=True)
         self.show_stats_var = tk.BooleanVar(value=True)
@@ -66,9 +71,9 @@ class ImageWatcher:
         self.image_paned_window_swap_var = tk.BooleanVar(value=False)
         self.image_paned_window_horizontal_var = tk.BooleanVar(value=False)
 
-        self.previous_live_state = None
-        self.filter_active = False
-        self.filter_states = {
+        self.previous_live_state: bool | None = None
+        self.filter_active: bool = False
+        self.filter_states: dict[str, tk.BooleanVar] = {
             "ALL": tk.BooleanVar(value=True),
             "Positive Prompt": tk.BooleanVar(value=True),
             "Negative Prompt": tk.BooleanVar(value=True),
@@ -186,7 +191,7 @@ class ImageWatcher:
         return False
 
 
-    def navigate(self, direction="next", index=None):
+    def navigate(self, direction: str = "next", index: int | None = None):
         if not self.image_manager:
             return
         # Check for file changes if live mode is disabled
@@ -233,7 +238,7 @@ class ImageWatcher:
 #region Image Display
 
 
-    def display_image(self, image_path):
+    def display_image(self, image_path: str):
         try:
             self.gui.image_label.set_image(image_path)
             self.update_image_stats()
@@ -276,7 +281,7 @@ class ImageWatcher:
             self.gui.update_count_label()
 
 
-    def refresh_index(self, reset_index=True):
+    def refresh_index(self, reset_index: bool = True):
         if self.image_manager:
             self.current_image_path = self.image_manager.get_current_image()
             self.image_manager.refresh_image_list(reset_index=reset_index)
@@ -391,6 +396,8 @@ class ImageWatcher:
         self.filter_active = True
         # Apply filters on database
         filtered_images = []
+        filepath: str
+        metadata: dict[str, any]
         for filepath, metadata in database.items():
             if not os.path.exists(filepath):  # Skip if file doesn't exist
                 continue
@@ -469,7 +476,7 @@ class ImageWatcher:
         self.apply_filters()
 
 
-    def handle_filter_type_change(self, option):
+    def handle_filter_type_change(self, option: str):
         # If any individual filter is unchecked, uncheck ALL
         if not self.filter_states[option].get():
             self.filter_states["ALL"].set(False)
@@ -494,7 +501,7 @@ class ImageWatcher:
         self._after_process_navigation(current_index)
 
 
-    def _after_process_navigation(self, current_index):
+    def _after_process_navigation(self, current_index: int | None):
         if current_index is not None:
             if len(self.image_manager.image_files) > 0:
                 self.apply_filters()
@@ -533,7 +540,7 @@ class ImageWatcher:
 
 
 def main():
-    app = ImageWatcher()
+    app = Main()
     app.run()
 
 

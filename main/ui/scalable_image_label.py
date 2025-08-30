@@ -13,10 +13,10 @@ from PIL import Image, ImageTk
 
 
 DRAW_METHODS = {
-    'nearest': Image.NEAREST,
-    'bilinear': Image.BILINEAR,
-    'bicubic': Image.BICUBIC,
-    'lanczos': Image.LANCZOS
+    'nearest': Image.Resampling.NEAREST,
+    'bilinear': Image.Resampling.BILINEAR,
+    'bicubic': Image.Resampling.BICUBIC,
+    'lanczos': Image.Resampling.LANCZOS
 }
 
 
@@ -41,7 +41,18 @@ class ScalableImageLabel(tk.Label):
         **kwargs: Additional keyword arguments for tk.Label.
     """
 
-    def __init__(self, master=None, image_path="", width=None, height=None, keep_aspect=True, draw_method='lanczos', scale_mode="fill", hq_delay_ms=200, *args, **kwargs):
+    def __init__(self,
+                 master: tk.Widget = None,
+                 image_path: str = "",
+                 width: int = None,
+                 height: int = None,
+                 keep_aspect: bool = True,
+                 draw_method: str = 'lanczos',
+                 scale_mode: str = "fill",
+                 hq_delay_ms: int = 200,
+                 *args,
+                 **kwargs
+        ):
         super().__init__(master, *args, **kwargs)
         # args
         self.image_path = ""
@@ -62,7 +73,7 @@ class ScalableImageLabel(tk.Label):
             self.set_image(image_path)
 
 
-    def _init_dimensions(self, width, height):
+    def _init_dimensions(self, width: int, height: int):
         """Initialize the given dimensions of the label."""
         if width is not None and height is not None:
             self.config(width=width, height=height)
@@ -74,7 +85,7 @@ class ScalableImageLabel(tk.Label):
             self.config(width=10, height=10)
 
 
-    def _init_scale_mode(self, scale_mode):
+    def _init_scale_mode(self, scale_mode: str):
         """Initialize the given scale mode."""
         scale_mode = scale_mode.lower()
         if scale_mode not in ["fill", "center"]:
@@ -84,7 +95,7 @@ class ScalableImageLabel(tk.Label):
 
 
     # --- Public API ---
-    def set_image(self, image_path):
+    def set_image(self, image_path: str | Image.Image):
         """Update the displayed image.
         Accepts:
           - str: filesystem path
@@ -108,7 +119,7 @@ class ScalableImageLabel(tk.Label):
             self._final_resize(self.original_image.width, self.original_image.height)
 
 
-    def set_image_from_pil(self, pil_image):
+    def set_image_from_pil(self, pil_image: Image.Image):
         """Convenience: set an in-memory PIL.Image.Image as the widget image."""
         if not isinstance(pil_image, Image.Image):
             raise TypeError("pil_image must be a PIL.Image.Image")
@@ -120,7 +131,7 @@ class ScalableImageLabel(tk.Label):
             self._final_resize(self.winfo_width(), self.winfo_height())
 
 
-    def set_draw_method(self, draw_method):
+    def set_draw_method(self, draw_method: str):
         """Update the draw method and re-render the image.
         Args:
             draw_method (str): 'nearest', 'bilinear', 'bicubic', or 'lanczos'
@@ -129,7 +140,7 @@ class ScalableImageLabel(tk.Label):
         self.refresh_displayed_image()
 
 
-    def set_keep_aspect(self, keep_aspect):
+    def set_keep_aspect(self, keep_aspect: bool):
         """Update the keep_aspect setting and re-render the image.
         Args:
             keep_aspect (bool): True to maintain aspect ratio, False otherwise.
@@ -138,7 +149,7 @@ class ScalableImageLabel(tk.Label):
         self.refresh_displayed_image()
 
 
-    def set_scale_mode(self, scale_mode):
+    def set_scale_mode(self, scale_mode: str):
         """Update the scale mode and re-render the image.
         Args:
             scale_mode (str): "fill" or "center"
@@ -177,7 +188,7 @@ class ScalableImageLabel(tk.Label):
 
 
     # --- Resize handling ---
-    def _resize(self, event):
+    def _resize(self, event: tk.Event):
         """Handle resize events by updating the image size."""
         if not self.original_image:
             return
@@ -187,14 +198,14 @@ class ScalableImageLabel(tk.Label):
         self.resize_timer = self.after(self.resize_delay_ms, lambda: self._final_resize(event.width, event.height))
 
 
-    def _final_resize(self, width, height):
+    def _final_resize(self, width: int, height: int):
         """Perform final high-quality resize after resizing stops."""
         self.resize_timer = None
         self._resize_image(width, height, high_quality=True)
 
 
     # --- Internal helpers ---
-    def _resize_image(self, width, height, high_quality=False):
+    def _resize_image(self, width: int, height: int, high_quality: bool = False):
         """Resize the image to the specified dimensions.
         Args:
             width (int): Target width
@@ -203,7 +214,7 @@ class ScalableImageLabel(tk.Label):
         """
         if not self.original_image or width <= 0 or height <= 0:
             return
-        current_method = self.draw_method if high_quality else Image.NEAREST
+        current_method = self.draw_method if high_quality else Image.Resampling.NEAREST
         orig_width, orig_height = self.original_image.size
         if self.scale_mode == "center":
             if orig_width <= width and orig_height <= height:
@@ -230,7 +241,7 @@ class ScalableImageLabel(tk.Label):
         self.config(image=self.displayed_image)
 
 
-    def _validate_draw_method(self, method):
+    def _validate_draw_method(self, method: str):
         """Validate and return the PIL draw method constant.
         Args:
             method (str): The draw method name
@@ -245,7 +256,7 @@ class ScalableImageLabel(tk.Label):
         return DRAW_METHODS[method]
 
 
-    def _fit_with_aspect(self, target_width, target_height, orig_width, orig_height):
+    def _fit_with_aspect(self, target_width: int, target_height: int, orig_width: int, orig_height: int):
         """Return (w, h) that fit within target while preserving aspect ratio."""
         ratio = min(target_width / orig_width, target_height / orig_height)
         new_width = max(1, int(orig_width * ratio))
@@ -261,7 +272,13 @@ def example():
     root = tk.Tk()
     root.title("ScalableImageLabel Example")
 
-    image = ScalableImageLabel(root, image_path="image.png", width=None, height=None, keep_aspect=True, draw_method='lanczos', scale_mode="center")
+    image = ScalableImageLabel(root,
+                               image_path="image.png",
+                               width=None,
+                               height=None,
+                               keep_aspect=True,
+                               draw_method='lanczos',
+                               scale_mode="center")
     image.pack(fill=tk.BOTH, expand=True)
 
     root.mainloop()

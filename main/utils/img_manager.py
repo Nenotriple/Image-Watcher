@@ -10,9 +10,9 @@ import os
 
 
 class ImageManager:
-    def __init__(self, folder, extensions):
-        self.folder = folder
-        self.valid_extensions = extensions
+    def __init__(self, file_path: str, allowed_extensions: set[str]):
+        self.folder = file_path
+        self.valid_extensions = allowed_extensions
         self.image_files = []
         self.current_index = -1
         self.current_image_path = None
@@ -20,7 +20,7 @@ class ImageManager:
         self.refresh_image_list()
 
 
-    def refresh_image_list(self, reset_index=True):
+    def refresh_image_list(self, reset_index: bool = True):
         """Refresh the list of images in the watched folder."""
         current_path = self.get_current_image()
         self.image_files = [
@@ -65,7 +65,7 @@ class ImageManager:
         return False
 
 
-    def set_index(self, index):
+    def set_index(self, index: int):
         """Safely set the current index."""
         if not self.image_files:
             self.current_index = -1
@@ -76,7 +76,7 @@ class ImageManager:
         return False
 
 
-    def navigate_images(self, direction="next", index=None):
+    def navigate_images(self, direction: str = "next", index: int | None = None):
         """Navigate through images with improved index management."""
         if not self.image_files:
             return None

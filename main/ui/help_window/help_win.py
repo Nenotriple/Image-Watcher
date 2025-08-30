@@ -57,7 +57,7 @@ class HelpWindow(tk.Toplevel):
 #region - Window Methods
 
 
-    def open_window(self, title=None, text=None, geometry=None, format="rich"):
+    def open_window(self, title: str = None, text: str = None, geometry: str = None, format: str = "rich"):
         """Opens and displays the help window with specified settings.
 
         This method configures and shows the help window, updating its title,
@@ -81,12 +81,12 @@ class HelpWindow(tk.Toplevel):
         self.lift()
 
 
-    def close_window(self, event=None):
+    def close_window(self, event: tk.Event = None):
         """Closes the help window and hides it from view."""
         self.withdraw()
 
 
-    def _update_window(self, title=None, geometry=None):
+    def _update_window(self, title: str = None, geometry: str = None):
         """Updates the help window's title and geometry."""
         if title is not None:
             self.title(title)
@@ -149,7 +149,7 @@ class HelpWindow(tk.Toplevel):
 #region - Update Text
 
 
-    def _update_help_text(self, help_text=None, text_format="rich"):
+    def _update_help_text(self, help_text: str | dict = None, text_format: str = "rich"):
         """Display help text in the textbox using either simple or rich formatting.
 
         :param help_text: The text or dictionary to display.
@@ -168,7 +168,7 @@ class HelpWindow(tk.Toplevel):
         self.textbox.config(state='disabled')
 
 
-    def _insert_simple_text(self, help_text):
+    def _insert_simple_text(self, help_text: str | dict):
         """Insert the provided help text as plain text into the textbox.
 
         :param help_text: Can be a dict, list, or string. Each element or line is inserted as-is.
@@ -188,7 +188,7 @@ class HelpWindow(tk.Toplevel):
             self.textbox.insert("end", f"Error: {str(e)}")
 
 
-    def _insert_rich_text(self, help_text):
+    def _insert_rich_text(self, help_text: dict):
         """Insert the provided help text using styled headers and formatting.
 
         :param help_text: Expects a dict of header-content pairs for rich formatting.
@@ -212,7 +212,7 @@ class HelpWindow(tk.Toplevel):
             self._insert_simple_text(help_text)
 
 
-    def _process_text_formatting(self, text):
+    def _process_text_formatting(self, text: str):
         """Process text for bold, italic, and backtick code formatting.
 
         Recognizes the following inline markers:

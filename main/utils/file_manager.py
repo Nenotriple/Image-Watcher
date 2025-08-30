@@ -8,22 +8,29 @@ import subprocess
 # UI
 from tkinter import messagebox, filedialog
 
+# Typing
+from typing import TYPE_CHECKING, Callable, Any
+if TYPE_CHECKING:
+    from .img_db_manager import DatabaseManager
+    from .img_manager import ImageManager
+    from main.ui.interface_manager import MainUI
+
 
 #endregion
 #region FileManager
 
 
 class FileManager:
-    def __init__(self, watch_folder_path, image_manager, saved_folder_name="Saved Images"):
+    def __init__(self, watch_folder_path: str, image_manager: "ImageManager", saved_folder_name: str = "Saved Images"):
         self.watch_folder_path = watch_folder_path
         self.image_manager = image_manager
         self.saved_folder_name = saved_folder_name
 
 
-    def initialize_gui_in_filemanager(self, gui):
+    def initialize_gui_in_filemanager(self, gui: "MainUI"):
         self.gui = gui
 
-    def initialize_watch_folder(self, watch_folder_path):
+    def initialize_watch_folder(self, watch_folder_path: str):
         self.watch_folder_path = watch_folder_path
 
 
@@ -31,7 +38,7 @@ class FileManager:
 #region Helpers
 
 
-    def _perform_file_operation(self, source_path, target_folder, operation):
+    def _perform_file_operation(self, source_path: str, target_folder: str, operation: Callable[[str, str], Any]):
         try:
             new_path = self._get_unique_path(source_path, target_folder)
             operation(source_path, new_path)
@@ -41,7 +48,7 @@ class FileManager:
             return False
 
 
-    def _get_unique_path(self, source_path, target_folder):
+    def _get_unique_path(self, source_path: str, target_folder: str):
         filename = os.path.basename(source_path)
         new_path = os.path.join(target_folder, filename)
         base, ext = os.path.splitext(filename)
@@ -52,7 +59,7 @@ class FileManager:
         return new_path
 
 
-    def _get_unique_filename(self, filepath):
+    def _get_unique_filename(self, filepath: str):
         # Generate a unique filename if one already exists
         base, ext = os.path.splitext(filepath)
         counter = 1
@@ -87,7 +94,7 @@ class FileManager:
             messagebox.showinfo("Info", "No saved images folder found.")
 
 
-    def delete_image(self, quick_delete=False, database_manager=None):
+    def delete_image(self, quick_delete: bool = False, database_manager: "DatabaseManager" = None):
         current_image = self.gui.image_label.get_image_path()
         if not current_image:
             return None
@@ -107,7 +114,7 @@ class FileManager:
             return None
 
 
-    def move_image_to_saved_folder(self, quick_move=False, database_manager=None):
+    def move_image_to_saved_folder(self, quick_move: bool = False, database_manager: "DatabaseManager" = None):
         if not self.image_manager or not self.gui.image_label.get_image_path():
             return None
         if not quick_move:
@@ -121,7 +128,7 @@ class FileManager:
         try:
             current_index = self.image_manager.current_index
             new_path = self._get_unique_path(current_image, saved_folder)
-            os.rename(current_image, new_path)
+            shutil.move(current_image, new_path)
             self.image_manager.refresh_image_list(reset_index=False)
             # Remove from database if manager provided
             if database_manager is not None:
@@ -145,7 +152,7 @@ class FileManager:
         # Move each image to the target folder
         moved_count = 0
         for image_path in self.image_manager.image_files:
-            success = self._perform_file_operation(image_path, target_folder, os.rename)
+            success = self._perform_file_operation(image_path, target_folder, shutil.move)
             if success:
                 moved_count += 1
         # Refresh the image list
@@ -156,7 +163,7 @@ class FileManager:
         return True
 
 
-    def move_image_to(self, database_manager=None):
+    def move_image_to(self, database_manager: "DatabaseManager" = None):
         current_image = self.gui.image_label.get_image_path()
         if not current_image:
             messagebox.showinfo("Info", "No image selected.")
@@ -165,7 +172,7 @@ class FileManager:
         if not target_folder:
             return
         current_index = self.image_manager.current_index
-        success = self._perform_file_operation(current_image, target_folder, os.rename)
+        success = self._perform_file_operation(current_image, target_folder, shutil.move)
         if success:
             messagebox.showinfo("Success", f"Moved image to:\n{target_folder}")
             self.image_manager.refresh_image_list(reset_index=False)
@@ -192,7 +199,7 @@ class FileManager:
 #region Metadata
 
 
-    def format_metadata(self, metadata):
+    def format_metadata(self, metadata: dict) -> str:
         # Format metadata as key: value on each line
         lines = []
         for key, value in metadata.items():
@@ -200,7 +207,7 @@ class FileManager:
         return "\n".join(lines)
 
 
-    def export_current_image_metadata(self, database_manager):
+    def export_current_image_metadata(self, database_manager: "DatabaseManager"):
         """Export formatted PNG metadata of the currently displayed image."""
         current_image = self.gui.image_label.get_image_path()
         if not current_image:
@@ -225,7 +232,7 @@ class FileManager:
             messagebox.showerror("Error", f"Failed to export metadata: {str(e)}")
 
 
-    def export_all_metadata(self, database_manager):
+    def export_all_metadata(self, database_manager: "DatabaseManager"):
         """Batch export formatted PNG metadata for all images in the current list."""
         if not self.image_manager.image_files:
             messagebox.showinfo("Info", "No images to export.")

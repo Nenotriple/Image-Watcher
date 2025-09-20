@@ -1,4 +1,4 @@
 pillow
 pypng
 watchdog
-git+https://github.com/Nenotriple/TkToolTip.git
+git+https://github.com/Nenotriple/TkToolTip.git@v1.11

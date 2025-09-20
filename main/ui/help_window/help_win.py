@@ -31,6 +31,7 @@ General Use:
 import tkinter as tk
 from tkinter import scrolledtext
 
+# Local
 from . import help_text
 
 

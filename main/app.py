@@ -12,7 +12,7 @@ import tkinter as tk
 from tkinter import TclError, filedialog
 
 # Typing
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from watchdog.observers.api import BaseObserver
 

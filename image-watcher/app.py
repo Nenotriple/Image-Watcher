@@ -109,7 +109,7 @@ class Main:
 
 
     def set_appid(self):
-        myappid = 'ImgTxtViewer.Nenotriple'
+        myappid = 'Image-Watcher.Nenotriple'
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
